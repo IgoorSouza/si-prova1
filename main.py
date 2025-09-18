@@ -134,15 +134,27 @@ def des_decrypt(ciphertext: bytes, key: bytes) -> bytes:
     return pkcs7_unpad(bytes(out))
 
 if __name__ == "__main__":
+    print("=== 🔐 DES - Criptografia Simples ===")
+    print("1 - Cifrar mensagem")
+    print("2 - Decifrar mensagem")
+    choice = input("Escolha uma opção (1/2): ")
+
     key = input("Digite a chave de criptografia (exatamente 8 caracteres): ").encode("utf-8")
 
     if len(key) != 8:
-        raise ValueError("❌ Erro: a chave deve conter exatamente 8 caracteres.")
-    
-    msg = input("Digite a mensagem a ser cifrada: ").encode("utf-8")
+        raise ValueError("Erro: a chave deve conter exatamente 8 caracteres.")
 
-    cipher = des_encrypt(msg, key)
-    print("Cifrado:", cipher.hex())
+    if choice == "1":
+        msg = input("Digite a mensagem a ser cifrada: ").encode("utf-8")
+        cipher = des_encrypt(msg, key)
+        print("\nMensagem cifrada (hex):", cipher.hex())
 
-    recovered = des_decrypt(cipher, key)
-    print("Decifrado:", recovered.decode("utf-8", errors="ignore"))
+    elif choice == "2":
+        hex_cipher = input("Digite a mensagem cifrada: ")
+        cipher_bytes = bytes.fromhex(hex_cipher)
+        recovered = des_decrypt(cipher_bytes, key)
+        print("\nMensagem decifrada:", recovered.decode("utf-8", errors="ignore"))
+
+    else:
+        print("Opção inválida.")
+
